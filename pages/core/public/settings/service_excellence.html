@@ -1,0 +1,31 @@
+<form method="post">
+    {% csrf_token %}
+    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+      <div class="md:col-span-5">
+        <div class="min-w-0 flex-auto inline-flex">
+          <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100 flex"><i class="h-6 w-6 block text-white mr-4">{{ service_excellence_edit.service_excellence_icon|safe }}</i>{{ service_excellence_edit.service_excellence_name }}</h2>
+        </div>
+      </div>             
+        <div class="md:col-span-5">
+            <div class="mb-5 relative">
+                <label for="service_excellence_name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Service Name</label>
+                <div class="mt-2">
+                    <input id="service_excellence_name" type="text" name="service_excellence_name" value="{{ service_excellence_edit.service_excellence_name }}" class="block w-full rounded p-2 outline-none bg-gray-100 dark:text-white dark:bg-slate-900 text-base border-b-gray-600 placeholder-gray-500 text-gray-900">
+                </div>
+            </div>
+        </div>
+        <div class="md:col-span-5">
+            <div class="mb-5 relative">
+                <label for="service_excellence_description" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Service Description</label>
+                <div class="mt-2">
+                    <input id="service_excellence_description" type="text" name="service_excellence_description" value="{{ service_excellence_edit.service_excellence_description }}" class="block w-full rounded p-2 outline-none bg-gray-100 dark:text-white dark:bg-slate-900 text-base border-b-gray-600 placeholder-gray-500 text-gray-900">
+                </div>
+            </div>
+        </div>             
+    </div>
+    <div class="md:col-span-5 text-right">
+        <div class="inline-flex items-end">
+            <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 mt-8 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+        </div>
+    </div>
+</form>

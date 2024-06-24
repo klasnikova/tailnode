@@ -1,0 +1,96 @@
+{% extends 'base/common/base.html' %}
+{% block title %}{{page_title}}{% endblock %}
+{% block content %}{% url 'add-project' as add_project %}
+<div class="min-h-screen px-4 py-24 flex items-center justify-center">
+  <div class="container max-w-screen-lg mx-auto">
+    <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100">Our project</h2>
+    <p class="text-gray-900 dark:text-gray-100 mb-6">We are working on is to provide the best services to our clients and community.</p>
+      <div class="backdrop-blur-md dark:bg-slate-700/10 rounded-lg shadow-lg p-4 md:p-8 mb-6 animate__animated animate__fadeIn">
+        <div class="grid gap-5 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+          <div class="text-gray-900 dark:text-gray-100 md:block">
+            <div class="flex min-w-0 gap-x-4">
+              <div class="min-w-0 flex-auto">
+                <p class="font-medium text-md">Latest project</p>
+                <p class="text-sm">Our current projects</p>
+              </div>
+            </div>
+            <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
+                {% if user.is_authenticated %}
+                <a href="{% url 'add-project' %}" class="text-gray-900 -translate-y-5 dark:text-gray-100 hover:text-gray-400">+ Add new</a>
+                {% endif %}
+            </div>
+            <div class="overflow-auto flex flex-col divide-y h-auto dark:divide-slate-200/5">
+              <ul role="list" class="mt-3">
+                {% if latest_project %}
+                {% for project in latest_project %}
+                {% if project.visibility == True and user.is_authenticated == False or user.is_authenticated == True %}
+                <li class="flex justify-between gap-x-6 py-5 p-3 rounded-lg bg-slate-900 mb-2">
+                  <div class="flex min-w-0 gap-x-4">
+                    <img class="h-12 w-12 flex-none rounded-full" src="{% if project.project_icon_url %}{{project.project_icon_url}}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr0UUlb4giEvpuGYNJhFkg2VPFQyKvQXn4Hv4sUImYCg&s{% endif %}" alt="{{project.project_name|slugify}}">
+                    <div class="min-w-0 flex-auto">
+                        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">{{project.project_name}}<span class="inline-flex items-center rounded-md bg-blue-500 px-2 py-0.5 ml-1 text-xs font-medium text-gray-100 ring-1 ring-inset ring-blue-700/10">New</span></p>
+                        <p class="mt-1 text-xs leading-5 text-gray-300">{{project.project_date|timesince}} ago</p>
+                    </div>
+                  </div>
+                  <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
+                    {% if project.project_status == True %}
+                    <p class="text-xs leading-6 text-lime-400">Live</p>
+                    {% else %}
+                    <p class="text-xs leading-6 text-red-500">Offline</p>
+                    {% endif %}
+                  </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <li class="py-5">
+                  <p class="text-sm text-gray-500">There's no latest project yet.</p>
+                </li>
+                {% endif %}
+              </ul>            
+            </div>
+          </div>
+          <div class="lg:col-span-2">
+            <div class="md:col-span-5 text-right">
+                <div class="inline-flex items-end">
+                    <a href="{% url 'index' %}#{{content.section_c_text_1|slugify}}" class="text-sm font-semibold mx-5 leading-10 text-gray-900 dark:text-gray-100 hover:text-gray-600">Back home</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 text-center z-10">
+                {% if project_list %}
+                    {% for project in project_list %}
+                    {% if project.visibility == True and user.is_authenticated == False or user.is_authenticated == True %}
+                    <div class="block rounded-xl dark:bg-slate-900 border border-slate-900 p-4 shadow-sm hover:border-slate-800 hover:ring-1 hover:ring-slate-800 focus:outline-none focus:ring">
+                        <span class="inline-block">
+                            <img alt="" src="{% if project.project_icon_url %}{{project.project_icon_url}}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK3wWBVxDw68H-VbYXoKX6vj8uj4suTOHUdEOe2mrw9A&s{% endif %}" class="size-14 rounded-full object-cover"/>
+                        </span>
+                        <h2 class="mt-2 font-bold text-gray-100">{{project.project_name}}</h2>
+                        {% if project.project_status == True %}
+                        <span class="inline-flex items-center justify-center px-2.5 py-0.5 text-lime-400"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>                          
+                        <p class="whitespace-nowrap text-sm">Live</p>
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center justify-center py-0.5 text-red-500">                     
+                          <p class="whitespace-nowrap text-sm">Offline</p>
+                        </span>
+                        {% endif %}
+                        <br>
+                        <span class="inline-flex -space-x-px mt-2 overflow-hidden">
+                            {% if project.exploler_button == True %}
+                            <a href="{{ project.project_exploler_url|default:'' }}" rel="noreferrer" target="_blank"  class="inline-block px-3 py-1 text-sm font-medium rounded bg-slate-700 text-gray-100 hover:bg-slate-800 focus:relative">Explorer</a>
+                            {% else %}
+                            <a class="inline-block px-3 py-1 text-sm font-medium rounded bg-slate-700 text-gray-100 cursor-not-allowed opacity-50">Explorer</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

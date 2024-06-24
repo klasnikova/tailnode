@@ -1,0 +1,29 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "tailnode_site/wsgi.py",
+        "use": "@vercel/python",
+        "config": {
+          "maxLambdaSize": "50mb",
+          "maxDuration": 60,
+          "runtime": "python3.12"
+        }
+      }
+      ,
+      {
+        "src": "build.sh",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "static"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "tailnode_site/wsgi.py"
+      }
+    ],
+    "outputDirectory": "static"
+  }

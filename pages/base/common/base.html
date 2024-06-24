@@ -1,0 +1,64 @@
+<!doctype html>{% load static %}{% load django_htmx %}
+<html class="scroll-smooth dark" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-language" content="en">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="TailNode">
+        <meta name="theme-color" content="#020618">
+        <meta name="description" content="{{page_description}}">
+        <meta name="keywords" content="{{keywords}}">
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+        <meta name="google" content="notranslate">
+        <meta name="generator" content="TailNode">
+        <meta name="url" content="{{request.build_absolute_uri}}">
+        <meta name="site_name" content="TailNode">
+        <meta name="image" content="{% static '/assets/images/banner/banner.png' %}">
+        <meta name="image:width" content="1686">
+        <meta name="image:height" content="800">
+        <meta name="image:alt" content="TailNode Logo">
+        <title>{% block title %}{% endblock %}&nbsp;-&nbsp;TailNode</title>
+        <meta property="og:title" content="{{page_title}}&nbsp;-&nbsp;TailNode">
+        <meta property="og:description" content="{{page_description}}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{request.build_absolute_uri}}">
+        <meta property="og:site_name" content="TailNode">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:locale:alternate" content="id_ID">
+        <meta property="og:image" content="{% static '/assets/images/banner/banner.png' %}">
+        <meta property="og:image:width" content="1686">
+        <meta property="og:image:height" content="800">
+        <meta property="og:image:alt" content="TailNode Logo">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@publisher_handle">
+        <meta name="twitter:title" content="{{page_title}}&nbsp;-&nbsp;TailNode">
+        <meta name="twitter:description" content="{{page_description}}">
+        <meta name="twitter:creator" content="@author_handle">
+        <meta name="twitter:image:src" content="{% static '/assets/images/banner/banner.png' %}">
+        <link rel="shortcut icon" href="{% static '/favicon.ico' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{GOOGLE_ANALYTICS_ID}}"></script>
+        <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '{{GOOGLE_ANALYTICS_ID}}');</script>
+        <script src="{% static '/assets/bundles/tailnode-site.bundle.js' %}"></script>
+        <script src="{% static '/assets/bundles/tailnode-addons.bundle.js' %}"></script>
+        <script src="{% static '/assets/bundles/tailnode-htmx.bundle.js' %}" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer ></script>
+
+    </head>{% url 'sign-in' as sign_in %}
+    <body class="{% if request.path != sign_in %}bg-white dark:bg-slate-950{% else %}bg-slate-950{% endif %} {% if site_settings.text_content_select != True %}select-none{% else %}{% endif %}">
+        {% url 'get-started' as get_started %}
+        {% if request.path != get_started %}
+            {% include 'base/common/partials/header.html' %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+        {% if request.path != get_started %}
+            {% include 'base/common/partials/footer.html' %}
+        {% endif %}
+    </body>
+</html>

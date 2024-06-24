@@ -1,0 +1,10 @@
+{% extends 'base/common/base.html' %}
+{% block title %}{{page_title}}{% endblock %}
+{% block content %}
+{% url 'index' as index %}
+{% if request.path == index %}
+{% include 'core/public/index/sections/section_a.html' %}
+{% include 'core/public/index/sections/section_b.html' %}
+{% include 'core/public/index/sections/section_c.html' %}
+{% endif %}
+{% endblock %}

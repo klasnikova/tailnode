@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /get-started/
+Disallow: /initialize/
+Disallow: /sign-in/
+Disallow: /settings/
+Disallow: /add-project/
+Disallow: /edit-project/
+Sitemap: https://tailnode.org
+
